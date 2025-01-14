@@ -10,9 +10,9 @@ from io import StringIO
 import streamlit_authenticator as stauth
 
 # بيانات تسجيل الدخول (يمكنك تغييرها)
-names = ['Tarafa']
-usernames = ['Tarafa']
-passwords = ['Tarafa*']
+names = ['اسم المستخدم']
+usernames = ['username']
+passwords = ['password']
 
 # إنشاء المصادقة
 hashed_passwords = stauth.Hasher(passwords).generate()
