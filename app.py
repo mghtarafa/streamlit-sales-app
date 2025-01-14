@@ -16,6 +16,8 @@ passwords = ['password']
 
 # إنشاء المصادقة
 hashed_passwords = stauth.Hasher(passwords).generate()
+
+hashed_passwords = stauth.Hasher(passwords).generate()
 authenticator = stauth.Authenticate(names, usernames, hashed_passwords,'sales_app','abcdef')
 
 # عرض نموذج تسجيل الدخول
@@ -25,7 +27,6 @@ name, authentication_status, username = authenticator.login('تسجيل الدخ
 if authentication_status:
     # عرض محتوى التطبيق فقط إذا كان المستخدم مسجلاً
     authenticator.logout('تسجيل الخروج','sidebar')
-
 
     # عنوان التطبيق
     st.title("تطبيق التنبؤ بالمبيعات")
@@ -88,10 +89,9 @@ if authentication_status:
                 ax.legend()
                 ax.grid(True)
                 st.pyplot(fig)
-                
+
         except Exception as e:
             st.error(f"حدث خطأ أثناء قراءة الملف أو معالجة البيانات: {e}")
-
 
 
 elif authentication_status == False:
