@@ -1,8 +1,7 @@
-streamlit
-pandas
-numpy
-matplotlib
-seaborn
-statsmodels
-scikit-learn
-streamlit-authenticator==0.3.3
+        streamlit
+        pandas
+        numpy
+        matplotlib
+        seaborn
+        statsmodels
+        scikit-learn
