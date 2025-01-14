@@ -15,13 +15,8 @@ usernames = ['username']
 passwords = ['password']
 
 # إنشاء المصادقة
-hashed_passwords = stauth.Hasher(passwords).generate()
-if hashed_passwords:
-     authenticator = stauth.Authenticate(names, usernames, hashed_passwords,'sales_app','abcdef')
-else:
-     st.error("حدث خطأ في توليد كلمات المرور المشفرة.")
-     st.stop()
-
+hashed_passwords = [stauth.Hasher([password]).generate()[0] for password in passwords]
+authenticator = stauth.Authenticate(names, usernames, hashed_passwords,'sales_app','abcdef')
 
 # عرض نموذج تسجيل الدخول
 name, authentication_status, username = authenticator.login('تسجيل الدخول','sidebar')
@@ -96,7 +91,7 @@ if authentication_status:
         except Exception as e:
             st.error(f"حدث خطأ أثناء قراءة الملف أو معالجة البيانات: {e}")
 
-
+    
 
 elif authentication_status == False:
     st.error("اسم المستخدم أو كلمة المرور غير صحيحة")
