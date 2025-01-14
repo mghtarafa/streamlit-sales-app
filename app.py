@@ -9,8 +9,8 @@ from math import sqrt
 from io import StringIO
 
 # بيانات تسجيل الدخول (يمكنك تغييرها)
-USERNAME = "username"
-PASSWORD = "password"
+USERNAME = "Tarafamgh"
+PASSWORD = "qmd2099"
 
 def check_password():
     """Returns `True` if the user had the correct password."""
