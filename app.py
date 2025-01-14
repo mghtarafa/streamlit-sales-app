@@ -16,7 +16,11 @@ passwords = ['password']
 
 # إنشاء المصادقة
 hashed_passwords = stauth.Hasher(passwords).generate()
-authenticator = stauth.Authenticate(names, usernames, hashed_passwords,'sales_app','abcdef')
+if hashed_passwords:
+     authenticator = stauth.Authenticate(names, usernames, hashed_passwords,'sales_app','abcdef')
+else:
+     st.error("حدث خطأ في توليد كلمات المرور المشفرة.")
+     st.stop()
 
 
 # عرض نموذج تسجيل الدخول
