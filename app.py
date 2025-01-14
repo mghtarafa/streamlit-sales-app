@@ -7,24 +7,46 @@ from statsmodels.tsa.arima.model import ARIMA
 from sklearn.metrics import mean_squared_error
 from math import sqrt
 from io import StringIO
-import streamlit_authenticator as stauth
 
 # بيانات تسجيل الدخول (يمكنك تغييرها)
-names = ['اسم المستخدم']
-usernames = ['username']
-passwords = ['password']
+USERNAME = "username"
+PASSWORD = "password"
 
-# إنشاء المصادقة
-hashed_passwords = [stauth.Hasher([password]).generate()[0] for password in passwords]
-authenticator = stauth.Authenticate(names, usernames, hashed_passwords,'sales_app','abcdef')
+def check_password():
+    """Returns `True` if the user had the correct password."""
 
-# عرض نموذج تسجيل الدخول
-name, authentication_status, username = authenticator.login('تسجيل الدخول','sidebar')
+    def password_entered():
+        """Checks whether a password entered by the user is correct."""
+        if (
+            st.session_state["username"] == USERNAME
+            and st.session_state["password"] == PASSWORD
+        ):
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]  # don't store password
+        else:
+            st.session_state["password_correct"] = False
 
-# التحقق من حالة تسجيل الدخول
-if authentication_status:
-    # عرض محتوى التطبيق فقط إذا كان المستخدم مسجلاً
-    authenticator.logout('تسجيل الخروج','sidebar')
+    if "password_correct" not in st.session_state:
+        # First run, show inputs for username and password.
+        st.text_input(label="اسم المستخدم", key="username")
+        st.text_input(
+            label="كلمة المرور", key="password", type="password", on_change=password_entered
+        )
+        return False
+    elif not st.session_state["password_correct"]:
+        # Password not correct, show input + error.
+        st.text_input(label="اسم المستخدم", key="username")
+        st.text_input(
+            label="كلمة المرور", key="password", type="password", on_change=password_entered
+        )
+        st.error("اسم المستخدم أو كلمة المرور غير صحيحة")
+        return False
+    else:
+        # Password correct.
+        return True
+
+
+if check_password():
 
     # عنوان التطبيق
     st.title("تطبيق التنبؤ بالمبيعات")
@@ -90,11 +112,3 @@ if authentication_status:
                 
         except Exception as e:
             st.error(f"حدث خطأ أثناء قراءة الملف أو معالجة البيانات: {e}")
-
-    
-
-elif authentication_status == False:
-    st.error("اسم المستخدم أو كلمة المرور غير صحيحة")
-
-elif authentication_status == None:
-    st.warning("الرجاء تسجيل الدخول")
